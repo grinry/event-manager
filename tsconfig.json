@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": [
+      "es2015",
+      "es2016",
+      "es2017"
+    ],
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "plugins": [
+      { "transform": "ts-transformer-imports" }
+    ],
+    "baseUrl": "src/",
+    "paths": {
+      "~app/*": [
+        "*"
+      ],
+      "~bundles/*": [
+        "bundles/*"
+      ],
+      "~config": [
+        "config"
+      ]
+    }
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "files": [
+    "./src/custom.d.ts"
+  ]
+}
