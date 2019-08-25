@@ -5,6 +5,8 @@ import { User } from "~app/models/user.model";
 
 sequelize.sync();
 
+import '~app/models/event.model';
+
 console.log(`This is example var: ${config.env}`);
 
 process.on("exit", async e => {
