@@ -8,7 +8,6 @@ import {
   BelongsTo,
   ForeignKey
 } from "sequelize-typescript";
-import { sequelize } from "~app/connection";
 import { User } from "~app/models/user.model";
 import slugify from "slugify";
 
@@ -18,7 +17,6 @@ import slugify from "slugify";
   tableName: "events"
 })
 export class Event extends Model<Event> {
-
   @Column
   name: string;
 
@@ -30,7 +28,7 @@ export class Event extends Model<Event> {
   @Column
   userId: number;
 
-  @BelongsTo(() => User, 'userId')
+  @BelongsTo(() => User, "userId")
   user: User;
 
   @BeforeUpdate
@@ -40,4 +38,4 @@ export class Event extends Model<Event> {
   }
 }
 
-sequelize.addModels([Event]);
+export default Event;

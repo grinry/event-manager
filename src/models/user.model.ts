@@ -1,5 +1,13 @@
-import { Table, Column, Model, IsEmail, BeforeUpdate, BeforeCreate, Length, HasMany } from "sequelize-typescript";
-import { sequelize } from "~app/connection";
+import {
+  Table,
+  Column,
+  Model,
+  IsEmail,
+  BeforeUpdate,
+  BeforeCreate,
+  Length,
+  HasMany
+} from "sequelize-typescript";
 import { Event } from "~app/models/event.model";
 
 @Table({
@@ -8,7 +16,6 @@ import { Event } from "~app/models/event.model";
   tableName: "users"
 })
 export class User extends Model<User> {
-
   @IsEmail
   @Column({ unique: true })
   email: string;
@@ -20,7 +27,10 @@ export class User extends Model<User> {
   @Column
   name: string;
 
-  @HasMany(() => Event, 'userId')
+  @Column
+  referredBy: number;
+
+  @HasMany(() => Event, "userId")
   events: Event[];
 
   @BeforeUpdate
@@ -32,4 +42,4 @@ export class User extends Model<User> {
   // hobbies: Hobby[];
 }
 
-sequelize.addModels([User]);
+export default User;

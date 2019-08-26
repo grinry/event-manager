@@ -10,9 +10,8 @@ export const config = {
     secret: process.env.JWT_SECRET
   },
   database: {
-    dialect: process.env.DATABASE_DIALECT || "sqlite3",
-    uri: "sqlite://./database.sqlite",
-    // uri: 'sqlite://db.sqlite/',
+    dialect: process.env.DATABASE_DIALECT,
+    uri: process.env.DATABASE_URI,
     options: {
       pool: {
         max: 5,

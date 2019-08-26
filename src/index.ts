@@ -1,11 +1,8 @@
 import { config } from "~config";
 import "~bundles/express/index";
 import { sequelize } from "~app/connection";
-import { User } from "~app/models/user.model";
-
-sequelize.sync();
-
-import '~app/models/event.model';
+import User from "~app/models/user.model";
+// import { User } from "~app/models/user.model";
 
 console.log(`This is example var: ${config.env}`);
 
@@ -19,15 +16,20 @@ process.on("SIGINT", async () => {
   process.exit(0);
 });
 
-User.create({
-  name: "RG",
-  birthday: "bbd",
-  email: "rytis@grinry.dev"
-}).then(
-  e => {
-    // console.log(e);
-  },
-  e => {
-    // console.error(e);
-  }
-);
+setTimeout(() => {
+  User.create({
+    name: "RG",
+    birthday: "bbd",
+    email: "rytis@grinry.dev"
+  }).then(
+    e => {
+      console.log("created", e.email);
+
+      // console.log(e);
+    },
+    e => {
+      console.error("errored", e);
+      // console.error(e);
+    }
+  );
+}, 5000);
