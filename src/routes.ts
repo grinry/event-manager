@@ -1,5 +1,5 @@
-import { Router } from "express";
+import { Router } from 'express';
 
 export const routes = Router();
 
-routes.get("/status", (req, res) => res.send("OK"));
+routes.get('/status', (req, res) => res.send('OK'));

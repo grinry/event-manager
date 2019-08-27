@@ -1,24 +1,23 @@
-import express from "express";
-import * as bodyParser from "body-parser";
-import compress from "compression";
-import methodOverride from "method-override";
-import cors from "cors";
-import helmet from "helmet";
-import filter from "content-filter";
+import express from 'express';
+import * as bodyParser from 'body-parser';
+import compress from 'compression';
+import methodOverride from 'method-override';
+import cors from 'cors';
+import helmet from 'helmet';
+import filter from 'content-filter';
 import {
   errorConverter,
   errorHandler,
-  notFoundError
-} from "~app/utils/error-handler";
-import { config } from "~config";
-import { routes } from "~app/routes";
+  notFoundError,
+} from '~app/utils/error-handler';
+import { routes } from '~app/routes';
 
 let corsOptions = {};
 
 if (process.env.CORS_ORIGIN) {
   corsOptions = {
     origin: process.env.CORS_ORIGIN,
-    optionsSuccessStatus: 200
+    optionsSuccessStatus: 200,
   };
 }
 
@@ -42,7 +41,7 @@ app.use(helmet());
 app.use(cors(corsOptions));
 
 // mount api v1 routes
-app.use("/", routes);
+app.use('/', routes);
 
 // if error is not an instanceOf APIError, convert it.
 app.use(errorConverter);
@@ -53,6 +52,3 @@ app.use(notFoundError);
 // error handler, send stacktrace only during development
 app.use(errorHandler);
 
-app.listen(config.port, () => {
-  console.log("Server is started on ", config.port);
-});

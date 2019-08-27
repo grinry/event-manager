@@ -1,19 +1,10 @@
-import {
-  Table,
-  Column,
-  Model,
-  IsEmail,
-  BeforeUpdate,
-  BeforeCreate,
-  Length,
-  HasMany
-} from "sequelize-typescript";
-import { Event } from "~app/models/event.model";
+import { Table, Column, Model, IsEmail, BeforeUpdate, BeforeCreate, Length, HasMany } from 'sequelize-typescript';
+import { Event } from '~app/models/event.model';
 
 @Table({
   timestamps: true,
   paranoid: true,
-  tableName: "users"
+  tableName: 'users',
 })
 export class User extends Model<User> {
   @IsEmail
@@ -30,7 +21,7 @@ export class User extends Model<User> {
   @Column
   referredBy: number;
 
-  @HasMany(() => Event, "userId")
+  @HasMany(() => Event, 'userId')
   events: Event[];
 
   @BeforeUpdate
@@ -38,6 +29,7 @@ export class User extends Model<User> {
   static makeLowerCase(instance: User) {
     instance.email = instance.email.toLowerCase();
   }
+
   // @HasMany(() => Hobby)
   // hobbies: Hobby[];
 }

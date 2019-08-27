@@ -9,7 +9,7 @@ const moment = require('moment');
 const slugify = require('slugify');
 const fs = require('fs');
 
-config({ path: resolve(__dirname, ".env") });
+config({ path: resolve(__dirname, '.env') });
 
 // const DB_NAME = 'sequelize_migration_demo';
 // const DB_USER = 'sequelize_demo_admin';
@@ -20,7 +20,7 @@ const sequelize = new Sequelize(process.env.DATABASE_URI, {
   pool: {
     max: 5,
     min: 0,
-    idle: 10000
+    idle: 10000,
   },
 });
 
@@ -37,10 +37,10 @@ const umzug = new Umzug({
       sequelize.constructor, // DataTypes
       function() {
         throw new Error('Migration tried to use old style "done" callback. Please upgrade to "umzug" and return a promise instead.');
-      }
+      },
     ],
     path: './migrations',
-    pattern: /\.js$/
+    pattern: /\.js$/,
   },
 
   logging: function() {
@@ -50,13 +50,14 @@ const umzug = new Umzug({
 
 function logUmzugEvent(eventName) {
   return function(name, migration) {
-    console.log(`${ name } ${ eventName }`);
-  }
+    console.log(`${name} ${eventName}`);
+  };
 }
+
 umzug.on('migrating', logUmzugEvent('migrating'));
-umzug.on('migrated',  logUmzugEvent('migrated'));
+umzug.on('migrated', logUmzugEvent('migrated'));
 umzug.on('reverting', logUmzugEvent('reverting'));
-umzug.on('reverted',  logUmzugEvent('reverted'));
+umzug.on('reverted', logUmzugEvent('reverted'));
 
 function cmdStatus() {
   let result = {};
@@ -89,7 +90,7 @@ function cmdStatus() {
       console.log(JSON.stringify(status, null, 2));
 
       return { executed, pending };
-    })
+    });
 }
 
 function cmdMigrate() {
@@ -104,7 +105,7 @@ function cmdMigrateNext() {
       }
       const next = pending[0].name;
       return umzug.up({ to: next });
-    })
+    });
 }
 
 function cmdReset() {
@@ -119,7 +120,7 @@ function cmdResetPrev() {
       }
       const prev = executed[executed.length - 1].name;
       return umzug.down({ to: prev });
-    })
+    });
 }
 
 // function cmdHardReset() {
@@ -198,8 +199,8 @@ const args = process.argv.slice(2).map(e => e.trim().toLowerCase());
 const cmd = args.length > 0 ? args[0] : 'help';
 let executedCmd;
 
-console.log(`${ cmd.toUpperCase() } BEGIN`);
-switch(cmd) {
+console.log(`${cmd.toUpperCase()} BEGIN`);
+switch (cmd) {
   case 'help':
     executedCmd = cmdHelp();
     break;
@@ -233,22 +234,22 @@ switch(cmd) {
   //   break;
 
   default:
-    console.log(`invalid cmd: ${ cmd }`);
+    console.log(`invalid cmd: ${cmd}`);
     process.exit(1);
 }
 
 executedCmd
   .then((result) => {
-    const doneStr = `${ cmd.toUpperCase() } DONE`;
+    const doneStr = `${cmd.toUpperCase()} DONE`;
     console.log(doneStr);
-    console.log("=".repeat(doneStr.length));
+    console.log('='.repeat(doneStr.length));
   })
   .catch(err => {
-    const errorStr = `${ cmd.toUpperCase() } ERROR`;
+    const errorStr = `${cmd.toUpperCase()} ERROR`;
     console.log(errorStr);
-    console.log("=".repeat(errorStr.length));
+    console.log('='.repeat(errorStr.length));
     console.log(err);
-    console.log("=".repeat(errorStr.length));
+    console.log('='.repeat(errorStr.length));
   })
   .then(() => {
     return Promise.resolve();

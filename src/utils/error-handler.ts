@@ -1,14 +1,9 @@
-import * as httpStatus from "http-status";
-import { NextFunction, Request, Response } from "express";
-import { APIError } from "~app/utils/APIError";
-import { config } from "~config";
+import * as httpStatus from 'http-status';
+import { NextFunction, Request, Response } from 'express';
+import { APIError } from '~app/utils/APIError';
+import { config } from '~config';
 
-export const errorHandler = (
-  error: APIError,
-  req: Request,
-  res: Response,
-  next?: NextFunction
-) => {
+export const errorHandler = (error: APIError, req: Request, res: Response, next?: NextFunction) => {
   if (!error.status) {
     error.status = httpStatus.INTERNAL_SERVER_ERROR;
   }
@@ -17,10 +12,10 @@ export const errorHandler = (
     code: error.code,
     message: error.message || httpStatus[error.status],
     errors: error.errors,
-    stack: error.stack
+    stack: error.stack,
   };
 
-  if (config.env === "production") {
+  if (config.env === 'production') {
     delete errorResponse.stack;
   }
 
@@ -29,16 +24,11 @@ export const errorHandler = (
   res.end();
 };
 
-export const errorConverter = (
-  error: Error,
-  req: Request,
-  res: Response,
-  next?: NextFunction
-) => {
+export const errorConverter = (error: Error, req: Request, res: Response, next?: NextFunction) => {
   const convertedError: APIError = new APIError({
     message: error.message,
     status: httpStatus.INTERNAL_SERVER_ERROR,
-    stack: error.stack
+    stack: error.stack,
   });
   //   if (err instanceof expressValidation.ValidationError) {
   //     convertedError = new APIError({
@@ -60,16 +50,12 @@ export const errorConverter = (
   return errorHandler(convertedError, req, res, next);
 };
 
-export const notFoundError = (
-  req: Request,
-  res: Response,
-  next?: NextFunction
-) => {
+export const notFoundError = (req: Request, res: Response, next?: NextFunction) => {
   return errorHandler(
     new APIError({
-      message: "Not found",
+      message: 'Not found',
       status: httpStatus.NOT_FOUND,
-      code: httpStatus.NOT_FOUND
+      code: httpStatus.NOT_FOUND,
     }),
     req,
     res,

@@ -1,20 +1,11 @@
-import {
-  Table,
-  Column,
-  Model,
-  BeforeUpdate,
-  BeforeCreate,
-  Length,
-  BelongsTo,
-  ForeignKey
-} from "sequelize-typescript";
-import { User } from "~app/models/user.model";
-import slugify from "slugify";
+import { Table, Column, Model, BeforeUpdate, BeforeCreate, Length, BelongsTo, ForeignKey } from 'sequelize-typescript';
+import { User } from '~app/models/user.model';
+import slugify from 'slugify';
 
 @Table({
   timestamps: true,
   paranoid: true,
-  tableName: "events"
+  tableName: 'events',
 })
 export class Event extends Model<Event> {
   @Column
@@ -28,7 +19,7 @@ export class Event extends Model<Event> {
   @Column
   userId: number;
 
-  @BelongsTo(() => User, "userId")
+  @BelongsTo(() => User, 'userId')
   user: User;
 
   @BeforeUpdate

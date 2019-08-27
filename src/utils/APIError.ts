@@ -1,4 +1,4 @@
-import * as httpStatus from "http-status";
+import * as httpStatus from 'http-status';
 
 export interface ErrorData {
   message: string;
@@ -14,13 +14,14 @@ export class ExtendableError extends Error {
   public status: number = httpStatus.INTERNAL_SERVER_ERROR;
   public isPublic: boolean = false;
   public code: number;
+
   constructor({
     message,
     errors,
     status = httpStatus.INTERNAL_SERVER_ERROR,
     isPublic = false,
     stack = null,
-    code = null
+    code = null,
   }: ErrorData) {
     super(message);
     this.name = this.constructor.name;
@@ -42,7 +43,7 @@ export class APIError extends ExtendableError {
     status = httpStatus.INTERNAL_SERVER_ERROR,
     isPublic = false,
     stack = null,
-    code = null
+    code = null,
   }: ErrorData) {
     super({ message, errors, status, isPublic, stack, code });
   }
