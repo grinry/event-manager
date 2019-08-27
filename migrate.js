@@ -5,6 +5,9 @@ const Sequelize = require('sequelize');
 const Umzug = require('umzug');
 const { config } = require('dotenv');
 const { resolve } = require('path');
+const moment = require('moment');
+const slugify = require('slugify');
+const fs = require('fs');
 
 config({ path: resolve(__dirname, ".env") });
 
@@ -149,6 +152,48 @@ function cmdHelp() {
   });
 }
 
+function cmdCreateMigration(...args) {
+  return new Promise((resolve, reject) => {
+    setImmediate(() => {
+      try {
+        const command = 'table-name';
+        const code = `'use strict';
+module.exports = {
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.createTable('${command}', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
+      },
+      // add your columsn somewhere here.
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      }
+    });
+  },
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.dropTable('${command}');
+  }
+};
+`;
+        const filename = `${moment().format('YYYYMMDDHHmmssSSS')}-${slugify(args.join(' '))}.js`;
+        fs.writeFileSync(path.resolve('migrations', filename), code);
+        console.log('Created migration ', filename);
+        resolve();
+      } catch (e) {
+        reject();
+      }
+    });
+  });
+}
+
 const args = process.argv.slice(2).map(e => e.trim().toLowerCase());
 const cmd = args.length > 0 ? args[0] : 'help';
 let executedCmd;
@@ -161,6 +206,10 @@ switch(cmd) {
 
   case 'status':
     executedCmd = cmdStatus();
+    break;
+
+  case 'make':
+    executedCmd = cmdCreateMigration(...args.slice(1));
     break;
 
   case 'up':
