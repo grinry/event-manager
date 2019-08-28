@@ -12,7 +12,7 @@
     "start": "node ./dist/index.js",
     "build": "rm -rf ./dist && yarn prepare-build-dir && ttsc -p tsconfig.json",
     "dev": "nodemon -w src -e ts -x 'yarn build && yarn start'",
-    "test": "NODE_ENV=test nyc mocha -r ts-node/register -r tsconfig-paths/register --recursive tests/**/*.test.ts --exit",
+    "test": "NODE_ENV=test nyc mocha -r ts-node/register -r tsconfig-paths/register --recursive 'tests/**/*.test.ts' --exit",
     "coverage": "nyc report --reporter=cobertura --reporter=lcov --reporter=text",
     "prepare-build-dir": "mkdir -p dist",
     "migration:up": "node ./migrate.js up",
@@ -23,6 +23,7 @@
     "node": "^10.16.3"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "bluebird": "^3.5.5",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
@@ -46,6 +47,7 @@
     "umzug": "^2.2.0"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "@types/bluebird": "^3.5.27",
     "@types/body-parser": "^1.17.1",
     "@types/chai": "^4.1.7",
