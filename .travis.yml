@@ -1,0 +1,23 @@
+env:
+  global:
+    - JWT_SECRET=secret
+    - BCRYPT_SALT=secret
+    - DATABASE_DIALECT=sqlite
+    - DATABASE_URI="sqlite://./database.sqlite"
+    - DATABASE_TEST_DIALECT=sqlite
+    - DATABASE_TEST_URI="sqlite://./database-test.sqlite"
+cache:
+  yarn: true
+language: node_js
+node_js:
+  - 10.16.3
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+script:
+  - yarn install
+  - NODE_ENV=test yarn test
+  - NODE_ENV=test yarn coverage
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
