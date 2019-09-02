@@ -1,5 +1,8 @@
 import * as httpStatus from 'http-status';
 
+/**
+ *
+ */
 export interface ErrorData {
   message: string;
   status: number;
@@ -9,6 +12,9 @@ export interface ErrorData {
   stack?: string;
 }
 
+/**
+ *
+ */
 export class ExtendableError extends Error {
   public errors: Error[] = [];
   public status: number = httpStatus.INTERNAL_SERVER_ERROR;
@@ -36,6 +42,9 @@ export class ExtendableError extends Error {
   }
 }
 
+/**
+ *
+ */
 export class APIError extends ExtendableError {
   constructor({
     message,
@@ -46,5 +55,18 @@ export class APIError extends ExtendableError {
     code = null,
   }: ErrorData) {
     super({ message, errors, status, isPublic, stack, code });
+  }
+}
+
+/**
+ *
+ */
+export class HttpStatusError extends APIError {
+  constructor(status: number = httpStatus.INTERNAL_SERVER_ERROR) {
+    super({
+      code: status,
+      message: httpStatus[status],
+      status: status,
+    });
   }
 }

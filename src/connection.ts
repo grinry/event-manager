@@ -10,6 +10,5 @@ const options: SequelizeOptions = {
 
 export const sequelize = new Sequelize(config.database.uri, options);
 sequelize.authenticate().then(() => {
-  console.log('db');
   sequelize.sync({ force: false, alter: true });
 });

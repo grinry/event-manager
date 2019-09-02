@@ -8,9 +8,14 @@ import {
   Length,
   HasMany,
   ForeignKey,
+  Sequelize,
 } from 'sequelize-typescript';
 import { Event } from '~app/models/event.model';
-import { hash } from 'bcryptjs';
+import { compare, hash } from 'bcryptjs';
+import { sign } from 'jsonwebtoken';
+import { config } from '~config';
+import moment = require('moment');
+import { STRING } from 'sequelize';
 
 @Table({
   timestamps: true,
@@ -20,23 +25,22 @@ import { hash } from 'bcryptjs';
 export class User extends Model<User> {
   @IsEmail
   @Length({ max: 60 })
-  @Column({ unique: true })
+  @Column({ unique: true, type: STRING(60) })
   email: string;
 
-  @Length({ min: 6, max: 36 })
   @Column
   password: string;
 
   @Length({ max: 60 })
-  @Column
+  @Column({ type: STRING(60) })
   name: string;
 
   @Length({ max: 60 })
-  @Column({ allowNull: true })
+  @Column({ allowNull: true, type: STRING(60) })
   companyName: string;
 
-  @Length({ max: 100 })
-  @Column({ allowNull: true })
+  @Length({ max: 200 })
+  @Column({ allowNull: true, type: STRING(200) })
   companyAddress: string;
 
   @HasMany(() => Event, 'userId')
@@ -45,6 +49,32 @@ export class User extends Model<User> {
   // @ForeignKey(() => User)
   // @Column({ allowNull: true, defaultValue: null, onDelete: 'SET NULL', onUpdate: 'CASCADE' })
   // referrerId: string;
+
+  /**
+   * @param password
+   */
+  async isPasswordMatches(password: string): Promise<boolean> {
+    return compare(password, this.password);
+  }
+
+  /**
+   *
+   * @param scope
+   * @param expireAfterMinutes
+   * @return string
+   */
+  async getAccessToken(scope: string | string[] = ['*'], expireAfterMinutes?: number): Promise<string> {
+    const payload = {
+      sub: this.id,
+      email: this.email,
+      scope: Array.isArray(scope) ? scope : [scope],
+      exp: moment()
+        .add(expireAfterMinutes || config.jwt.expireAfterMinutes, 'minutes')
+        .unix(),
+      iat: moment().unix(),
+    };
+    return await sign(payload, config.jwt.secret);
+  }
 
   @BeforeUpdate
   @BeforeCreate

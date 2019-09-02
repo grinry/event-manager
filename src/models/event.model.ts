@@ -24,6 +24,10 @@ export class Event extends Model<Event> {
 
   @BeforeUpdate
   @BeforeCreate
+  /**
+   * Creates static things
+   * @param instance gives instance
+   */
   static makeLowerCase(instance: Event) {
     if (instance.changed('slug')) {
       instance.slug = slugify(instance.slug.toLowerCase());

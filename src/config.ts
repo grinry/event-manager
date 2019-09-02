@@ -9,6 +9,7 @@ export const config = {
   salt: process.env.BCRYPT_SALT || 0,
   jwt: {
     secret: process.env.JWT_SECRET,
+    expireAfterMinutes: 20,
   },
   database: {
     dialect: process.env.DATABASE_DIALECT,

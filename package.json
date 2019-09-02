@@ -12,12 +12,13 @@
     "start": "node ./dist/index.js",
     "build": "rm -rf ./dist && yarn prepare-build-dir && ttsc -p tsconfig.json",
     "dev": "nodemon -w src -e ts -x 'yarn build && yarn start'",
-    "test": "NODE_ENV=test nyc mocha -r ts-node/register -r tsconfig-paths/register --recursive 'tests/**/*.test.ts' --exit",
+    "test": "NODE_ENV=test nyc mocha -r ts-node/register -r tsconfig-paths/register --file ./tests/setup.ts --recursive 'tests/**/*.test.ts' --exit",
     "coverage": "nyc report --reporter=cobertura --reporter=lcov --reporter=text",
     "prepare-build-dir": "mkdir -p dist",
     "migration:up": "node ./migrate.js up",
     "migration:down": "node ./migrate.js down",
-    "migration:make": "node ./migrate.js make"
+    "migration:make": "node ./migrate.js make",
+    "docs": "typedoc"
   },
   "engines": {
     "node": "^10.16.3"
@@ -51,6 +52,7 @@
     "@types/bluebird": "^3.5.27",
     "@types/body-parser": "^1.17.1",
     "@types/chai": "^4.1.7",
+    "@types/chai-as-promised": "^7.1.2",
     "@types/compression": "^1.0.1",
     "@types/cors": "^2.8.6",
     "@types/dotenv": "^6.1.1",
@@ -65,6 +67,7 @@
     "@types/umzug": "^2.2.2",
     "@types/validator": "^10.11.3",
     "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
     "husky": "^3.0.2",
     "lint-staged": "^9.2.1",
     "mocha": "^6.2.0",
@@ -77,6 +80,7 @@
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
     "ttypescript": "^1.5.7",
+    "typedoc": "^0.15.0",
     "typescript": "^3.5.3"
   },
   "husky": {
@@ -89,5 +93,24 @@
       "prettier --write",
       "git add"
     ]
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts",
+      "src/**/*.tsx"
+    ],
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text-summary",
+      "html"
+    ],
+    "sourceMap": true,
+    "instrument": true
   }
 }
