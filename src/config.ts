@@ -1,5 +1,7 @@
 import { resolve } from 'path';
 import { config as load } from 'dotenv';
+import { init } from '@sentry/node';
+import { RewriteFrames } from '@sentry/integrations';
 
 load({ path: resolve(__dirname, '../.env') });
 
@@ -25,3 +27,14 @@ export const config = {
     },
   },
 };
+
+if (process.env.SENTRY_DSN && process.env.NODE_ENV !== 'test') {
+  init({
+    dsn: process.env.SENTRY_DSN,
+    integrations: [
+      new RewriteFrames({
+        root: __dirname || process.cwd(),
+      }),
+    ],
+  });
+}

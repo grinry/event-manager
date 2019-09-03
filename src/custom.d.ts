@@ -4,3 +4,9 @@ declare namespace Express {
     user?: any;
   }
 }
+
+declare namespace NodeJS {
+  interface Global {
+    __rootdir__: string;
+  }
+}
