@@ -60,14 +60,12 @@ describe('Authentication service', function() {
   });
 
   it('throw error when trying to authenticate using non-existing email', function(done) {
-    // @ts-ignore
     expect(authorizeUser('no-email@gmail.com', user1Data.password, 'name'))
       .to.be.rejectedWith(HttpStatusError, httpStatus[httpStatus.UNAUTHORIZED])
       .and.notify(done);
   });
 
   it('throw error when trying to authenticate using incorrect password', function(done) {
-    // @ts-ignore
     expect(authorizeUser(user1Data.email, 'badPassword', 'name'))
       .to.be.rejectedWith(HttpStatusError, httpStatus[httpStatus.UNAUTHORIZED])
       .and.notify(done);

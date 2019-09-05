@@ -54,6 +54,7 @@
     "@types/bluebird": "^3.5.27",
     "@types/body-parser": "^1.17.1",
     "@types/chai": "^4.1.7",
+    "@types/chai-as-promised": "7.1.1",
     "@types/compression": "^1.0.1",
     "@types/cors": "^2.8.6",
     "@types/dotenv": "^6.1.1",
@@ -68,7 +69,7 @@
     "@types/umzug": "^2.2.2",
     "@types/validator": "^10.11.3",
     "chai": "^4.2.0",
-    "chai-as-promised": "^7.1.1",
+    "chai-as-promised": "7.1.1",
     "husky": "^3.0.2",
     "lint-staged": "^9.2.1",
     "mocha": "^6.2.0",
@@ -86,7 +87,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged && yarn test"
     }
   },
   "lint-staged": {
