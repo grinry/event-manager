@@ -1,7 +1,7 @@
 import * as httpStatus from 'http-status';
 import { NextFunction, Request, Response } from 'express';
 import { APIError } from '~app/utils/APIError';
-import { config } from '~config';
+import { vars } from '~config/vars';
 
 export const errorHandler = (error: APIError, req: Request, res: Response, next?: NextFunction) => {
   if (!error.status) {
@@ -15,7 +15,7 @@ export const errorHandler = (error: APIError, req: Request, res: Response, next?
     stack: error.stack,
   };
 
-  if (config.env === 'production') {
+  if (vars.env === 'production') {
     delete errorResponse.stack;
   }
 

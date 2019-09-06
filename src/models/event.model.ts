@@ -1,5 +1,5 @@
 import { Table, Column, Model, BeforeUpdate, BeforeCreate, Length, BelongsTo, ForeignKey } from 'sequelize-typescript';
-import { User } from '~app/models/user.model';
+import User from '~app/models/user.model';
 import slugify from 'slugify';
 
 @Table({

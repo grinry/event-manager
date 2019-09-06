@@ -1,4 +1,4 @@
-import { sequelize } from '~app/connection';
+import { sequelize } from '~config/database';
 
 process.on('exit', async e => {
   console.log('about to exit', e);

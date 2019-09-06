@@ -3,9 +3,9 @@ import { config as load } from 'dotenv';
 import { init } from '@sentry/node';
 import { RewriteFrames } from '@sentry/integrations';
 
-load({ path: resolve(__dirname, '../.env') });
+load({ path: resolve(__dirname, '../../.env') });
 
-export const config = {
+export const vars = {
   env: process.env.NODE_ENV,
   port: process.env.PORT || 8888,
   salt: process.env.BCRYPT_SALT || 0,

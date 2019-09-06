@@ -1,21 +1,10 @@
-import {
-  Table,
-  Column,
-  Model,
-  IsEmail,
-  BeforeUpdate,
-  BeforeCreate,
-  Length,
-  HasMany,
-  ForeignKey,
-  Sequelize,
-} from 'sequelize-typescript';
-import { Event } from '~app/models/event.model';
+import { Table, Column, Model, IsEmail, BeforeUpdate, BeforeCreate, Length, HasMany } from 'sequelize-typescript';
 import { compare, hash } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
-import { config } from '~config';
 import moment = require('moment');
 import { STRING } from 'sequelize';
+import Event from './event.model';
+import { vars } from '~config/vars';
 
 @Table({
   timestamps: true,
@@ -69,11 +58,11 @@ export class User extends Model<User> {
       email: this.email,
       scope: Array.isArray(scope) ? scope : [scope],
       exp: moment()
-        .add(expireAfterMinutes || config.jwt.expireAfterMinutes, 'minutes')
+        .add(expireAfterMinutes || vars.jwt.expireAfterMinutes, 'minutes')
         .unix(),
       iat: moment().unix(),
     };
-    return await sign(payload, config.jwt.secret);
+    return await sign(payload, vars.jwt.secret);
   }
 
   @BeforeUpdate

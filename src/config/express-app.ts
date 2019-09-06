@@ -10,7 +10,7 @@ import {
   errorHandler,
   notFoundError,
 } from '~app/utils/error-handler';
-import { routes } from '~app/routes';
+import routes from '~app/routes';
 
 let corsOptions = {};
 
@@ -21,34 +21,34 @@ if (process.env.CORS_ORIGIN) {
   };
 }
 
-export const app = express();
+export const expressApp = express();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(filter());
+expressApp.use(bodyParser.json());
+expressApp.use(bodyParser.urlencoded({ extended: true }));
+expressApp.use(filter());
 
 // gzip compression
-app.use(compress());
+expressApp.use(compress());
 
 // lets you use HTTP verbs such as PUT or DELETE
 // in places where the client doesn't support it
-app.use(methodOverride());
+expressApp.use(methodOverride());
 
 // secure apps by setting various HTTP headers
-app.use(helmet());
+expressApp.use(helmet());
 
 // enable CORS - Cross Origin Resource Sharing
-app.use(cors(corsOptions));
+expressApp.use(cors(corsOptions));
 
 // mount api v1 routes
-app.use('/', routes);
+expressApp.use('/', routes);
 
 // if error is not an instanceOf APIError, convert it.
-app.use(errorConverter);
+expressApp.use(errorConverter);
 
 // catch 404 and forward to error handler
-app.use(notFoundError);
+expressApp.use(notFoundError);
 
 // error handler, send stacktrace only during development
-app.use(errorHandler);
+expressApp.use(errorHandler);
 
