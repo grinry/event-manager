@@ -1,6 +1,6 @@
 import User from '~app/models/user.model';
 import * as httpStatus from 'http-status';
-import { HttpStatusError } from '~app/utils/APIError';
+import { HttpStatusError } from '~utils/APIError';
 
 /**
  * Create an account with given parameters.

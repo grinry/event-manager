@@ -1,0 +1,16 @@
+body {
+  background-color: red;
+  transition: all 5s;
+}
+
+.logo {
+  background-image: url("../images/bulma-logo.png");
+  width: 640px;
+  height: 160px;
+}
+
+.log2o {
+  background-image: url("/images/bulma-logo.png?red");
+  width: 640px;
+  height: 160px;
+}

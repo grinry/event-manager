@@ -5,12 +5,12 @@ import methodOverride from 'method-override';
 import cors from 'cors';
 import helmet from 'helmet';
 import filter from 'content-filter';
-import {
-  errorConverter,
-  errorHandler,
-  notFoundError,
-} from '~app/utils/error-handler';
-import routes from '~app/routes';
+import { errorConverter, errorHandler, notFoundError } from '~utils/error-handler';
+import routes from '~routes';
+import exphbs from 'express-handlebars';
+import * as helpers from '../utils/helpers';
+import * as path from 'path';
+import cookieParser from 'cookie-parser';
 
 let corsOptions = {};
 
@@ -23,9 +23,31 @@ if (process.env.CORS_ORIGIN) {
 
 export const expressApp = express();
 
+expressApp.engine(
+  '.hbs',
+  exphbs({
+    helpers: helpers,
+    extname: '.hbs',
+
+    // Uses multiple partials dirs, templates in "shared/templates/" are shared
+    // with the client-side of the app (see below).
+    partialsDir: [path.resolve(__dirname, '..', 'resources', 'views', 'partials')],
+  })
+);
+expressApp.set('view engine', '.hbs');
+expressApp.set('views', path.resolve(__dirname, '..', 'resources', 'views'));
+
+expressApp.use(express.static(path.resolve(__dirname, '..', 'public')));
+
+// todo: try to find a way on how to serve static content when using ts-node for development.
+if (process.env.NODE_ENV !== 'production') {
+  expressApp.use(express.static(path.resolve(__dirname, '..', '..', 'dist', 'public')));
+}
+
 expressApp.use(bodyParser.json());
 expressApp.use(bodyParser.urlencoded({ extended: true }));
 expressApp.use(filter());
+expressApp.use(cookieParser());
 
 // gzip compression
 expressApp.use(compress());
@@ -44,11 +66,10 @@ expressApp.use(cors(corsOptions));
 expressApp.use('/', routes);
 
 // if error is not an instanceOf APIError, convert it.
-expressApp.use(errorConverter);
+expressApp.use(errorConverter(false));
 
 // catch 404 and forward to error handler
-expressApp.use(notFoundError);
+expressApp.use(notFoundError(false));
 
 // error handler, send stacktrace only during development
-expressApp.use(errorHandler);
-
+expressApp.use(errorHandler(false));

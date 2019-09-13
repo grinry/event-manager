@@ -7,7 +7,7 @@ load({ path: resolve(__dirname, '../.env') });
 
 const options: SequelizeOptions = {
   logging: false,
-  modelPaths: [path.resolve(__dirname, '..', 'src', 'models')],
+  modelPaths: [path.resolve(__dirname, '..', 'src', 'app', 'models')],
 };
 
 const sequelize = new Sequelize(process.env.DATABASE_TEST_URI, options);

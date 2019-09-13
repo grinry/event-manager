@@ -1,0 +1,15 @@
+{
+  "watch": [
+    "src/",
+    "src/resources/views/"
+  ],
+  "ignore": [
+    "src/**/*.spec.ts",
+    "src/resources/assets/",
+    "src/resources/css/",
+    "src/resources/js/",
+    "src/resources/custom.d.ts"
+  ],
+  "ext": "ts,hbs",
+  "exec": "ts-node -r tsconfig-paths/register --project ./tsconfig.json"
+}

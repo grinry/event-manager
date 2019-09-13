@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es5",
     "module": "commonjs",
     "moduleResolution": "node",
     "lib": [
@@ -12,7 +12,7 @@
     "declarationMap": true,
     "inlineSourceMap": true,
     "inlineSources": true,
-    "outDir": "./dist",
+    "outDir": "./dist/public/assets/js",
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
@@ -22,23 +22,17 @@
     "plugins": [
       { "transform": "ts-transformer-imports" }
     ],
-    "baseUrl": "src/",
+    "baseUrl": "./src/resources/js",
     "paths": {
-      "~*": [
-        "./*"
-      ],
-      "~http/*": [
-        "./app/http/*"
+      "~app/*": [
+        "*"
       ]
     }
   },
   "include": [
-    "./src/**/*"
-  ],
-  "exclude": [
     "./src/resources/**/*"
   ],
   "files": [
-    "./src/custom.d.ts"
+    "./src/resources/custom.d.ts"
   ]
 }

@@ -1,11 +1,11 @@
 import { expect, use } from 'chai';
-import { authorizeUser, createAccount } from '../../../src/services/auth.service';
-import User from '../../../src/models/user.model';
-import { clearDatabase, openDatabase } from '../../_db';
 import { decode } from 'jsonwebtoken';
-import { HttpStatusError } from '../../../src/utils/APIError';
 import * as httpStatus from 'http-status';
 import chaiAsPromised from 'chai-as-promised';
+import { clearDatabase, openDatabase } from '../../_db';
+import { authorizeUser, createAccount } from '../../../src/app/services/auth.service';
+import { HttpStatusError } from '../../../src/utils/APIError';
+import User from '../../../src/app/models/user.model';
 
 // @ts-ignore
 use(chaiAsPromised);

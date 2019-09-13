@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { Middleware } from '~app/middlewares/auth.middleware';
+import { Middleware } from '~app/http/middlewares/auth.middleware';
 import authorize = Middleware.authorize;
 
 const routes = Router();

@@ -1,9 +1,24 @@
 import * as httpStatus from 'http-status';
 import { NextFunction, Request, Response } from 'express';
-import { APIError } from '~app/utils/APIError';
+import { APIError } from '~utils/APIError';
 import { vars } from '~config/vars';
+import fs from 'fs';
+import path from 'path';
+import { expressApp } from '~config/express-app';
 
-export const errorHandler = (error: APIError, req: Request, res: Response, next?: NextFunction) => {
+const resolveErrorView = (code: number) => {
+  if (fs.existsSync(path.resolve(expressApp.get('views'), `error_${code}.hbs`))) {
+    return `error_${code}`;
+  }
+  return 'error';
+};
+
+export const errorHandler = (isApi: boolean = false) => (
+  error: APIError,
+  req: Request,
+  res: Response,
+  next?: NextFunction
+) => {
   if (!error.status) {
     error.status = httpStatus.INTERNAL_SERVER_ERROR;
   }
@@ -20,11 +35,15 @@ export const errorHandler = (error: APIError, req: Request, res: Response, next?
   }
 
   res.status(error.status);
-  res.json(errorResponse);
-  res.end();
+  if (isApi) {
+    res.json(errorResponse);
+    res.end();
+  } else {
+    res.render(resolveErrorView(error.status), errorResponse);
+  }
 };
 
-export const errorConverter = (error: Error, req: Request, res: Response, next?: NextFunction) => {
+export const errorConverter = (isApi: boolean) => (error: Error, req: Request, res: Response, next?: NextFunction) => {
   const convertedError: APIError = new APIError({
     message: error.message,
     status: httpStatus.INTERNAL_SERVER_ERROR,
@@ -47,11 +66,11 @@ export const errorConverter = (error: Error, req: Request, res: Response, next?:
   //   });
   // }
 
-  return errorHandler(convertedError, req, res, next);
+  return errorHandler(isApi)(convertedError, req, res, next);
 };
 
-export const notFoundError = (req: Request, res: Response, next?: NextFunction) => {
-  return errorHandler(
+export const notFoundError = (isApi: boolean = false) => (req: Request, res: Response, next?: NextFunction) => {
+  return errorHandler(isApi)(
     new APIError({
       message: 'Not found',
       status: httpStatus.NOT_FOUND,

@@ -1,0 +1,3 @@
+class Handler {
+  public errorRenderer() {}
+}

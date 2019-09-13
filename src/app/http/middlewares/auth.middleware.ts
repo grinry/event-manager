@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import * as httpStatus from 'http-status';
 import { verify } from 'jsonwebtoken';
-import { HttpStatusError } from '~app/utils/APIError';
+import { HttpStatusError } from '~utils/APIError';
 import { vars } from '~config/vars';
 
 export module Middleware {
