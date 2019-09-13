@@ -29,7 +29,7 @@ after_success: |
     git init
     git checkout -b gh-pages
     git add .
-    git -c user.name='travis' -c user.email='travis' commit -m init
-    git push -f -q https://grinry:$GITHUB_TOKEN@github.com/grinry/event-manager-gh-pages gh-pages &>/dev/null
+    git -c user.name='Travis' -c user.email='Travis' commit -m 'GitHub pages - Documentation'
+    git push -f -q https://$GITHUB_TOKEN@github.com/grinry/event-manager gh-pages &>/dev/null
     cd "$TRAVIS_BUILD_DIR"
   fi

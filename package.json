@@ -1,5 +1,5 @@
 {
-  "name": "event-manager-backend",
+  "name": "event-manager",
   "version": "1.0.0",
   "main": "dist/index.js",
   "license": "MIT",
