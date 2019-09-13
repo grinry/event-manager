@@ -19,5 +19,13 @@ script:
   - yarn install
   - NODE_ENV=test yarn test
   - NODE_ENV=test yarn coverage
+  - yarn docs
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  keep_history: true
+  on:
+    branch: master
